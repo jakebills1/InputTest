@@ -11,33 +11,26 @@ namespace InputTest
             this.rawInput = s;
             Value = this.ParseInput(rawInput);
         }
-        //public string Value 
-        //{ 
-        //    get { return value.Value; }
-        //    set { value = this.ParseInput(); }
-        //}
-
         public object ParseInput(string s)
         {
             // if input can be parsed as an int
             if(Int32.TryParse(s, out int i))
             {
-                return new NumberInput(i);
+                return new NumberInput(i); // the value field will be a NumberInput
             }
-            else if (s.Equals("quit"))
+            else if (s.Equals("quit")) // the value field will be an ExitInput
             {
                 return new ExitInput();
             }
-            // default to Text
+            // default to Text, if input is not numeric or quit
             return new TextInput(s);
         }
-        
-        public string Info()
+        public string Info() // returns a string referring to the value type of the object contained in value
         {
             Type t = this.Value.GetType();
             return t.Name == "TextInput" ? "string" : "number";
         }
-        public dynamic Read()
+        public dynamic Read() // returns the value in Value
         {
             Type t = this.Value.GetType();
             PropertyInfo prop = t.GetProperty("Value");
